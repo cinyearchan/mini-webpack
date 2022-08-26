@@ -1,0 +1,20 @@
+(function (modules) {
+  function require(filePath) {
+    const fn = modules[filePath];
+
+    const module = {
+      exports: {},
+    };
+    fn(require, module, module.exports);
+
+    return module.exports;
+  }
+
+  require(0);
+})({
+  <% data.forEach(info => { %>
+    "<%- info["filePath"] %>": function (require, module, exports) {
+      <%- info["code"] %>
+    },
+  <% }); %>
+});
